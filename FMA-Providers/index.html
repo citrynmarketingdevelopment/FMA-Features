@@ -260,13 +260,23 @@
     </div>
 
     <script>
-        /* 1) Data (add languages + multi-locations as needed) */
+        /* 1) Data (all providers, multi-locations, languages) */
         const PROVIDERS = [
+            {
+                name: "Lekh Poudel",
+                role: "PA-C",
+                location: "Nottingham",
+                locations: ["Nottingham"],
+                languages: ["English"],
+                img: "https://drsfirst.com/wp-content/uploads/2025/10/Lekh.webp",
+                link: "#",
+                cats: ["pac"]
+            },
             {
                 name: "Melinda Jorge",
                 role: "M.D.",
-                location: "Rockville",
-                locations: ["Rockville"],
+                location: "Germantown",
+                locations: ["Germantown"],
                 languages: ["English", "Spanish"],
                 img: "https://drsfirst.com/wp-content/uploads/2025/08/temp-1.png",
                 link: "#",
@@ -285,13 +295,12 @@
             {
                 name: "Maria Borodatcheva",
                 role: "M.D.",
-                location: "Silver Spring",
-                locations: ["Silver Spring"],
+                location: "Columbia",
+                locations: ["Columbia"],
                 languages: ["English"],
                 img: "https://drsfirst.com/wp-content/uploads/2024/12/Dr.-Maria-Borodatcheva-2.webp",
                 link: "#",
-                cats: ["md"],
-                badgeText: ""
+                cats: ["md"]
             },
             {
                 name: "Anita Kunwar",
@@ -324,10 +333,9 @@
                 cats: "md"
             },
             {
-                /* MULTI-LOCATION + MULTI-LANGUAGE EXAMPLE */
-                name: "Meera Ramakrishman",
+                name: "Meera Ramakrishnan",
                 role: "M.D.",
-                location: "Gaithersburg & Rockville",
+                location: "Gaithersburg, Rockville",
                 locations: ["Gaithersburg", "Rockville"],
                 languages: ["English", "Spanish"],
                 img: "https://drsfirst.com/wp-content/uploads/2024/01/Meera-Ramakrishnan.jpg",
@@ -349,7 +357,7 @@
                 role: "M.D.",
                 location: "Columbia",
                 locations: ["Columbia"],
-                languages: ["English", "Spanish"],  // example: bilingual
+                languages: ["English", "Spanish"],
                 img: "https://drsfirst.com/wp-content/uploads/2023/10/Maria-Munoz.jpg",
                 link: "#",
                 cats: "md"
@@ -412,7 +420,7 @@
                 languages: ["English"],
                 img: "https://drsfirst.com/wp-content/uploads/2023/04/Ronald-E.-Thomas-M.D_.jpg",
                 link: "#",
-                cats: "md"
+                cats: "md",
             },
             {
                 name: "Jason Lowery",
@@ -435,7 +443,7 @@
                 cats: "md"
             },
             {
-                name: "Quoc Anh Quinton Nguyen",
+                name: "Quoc Anh \"Quinton\" Nguyen",
                 role: "M.D.",
                 location: "Germantown",
                 locations: ["Germantown"],
@@ -443,17 +451,6 @@
                 img: "https://drsfirst.com/wp-content/uploads/2023/04/Quinton-Nguyen.jpg",
                 link: "#",
                 cats: "md"
-            },
-            {
-                name: "Lekh Poudel",
-                role: "PA-C",
-                location: "Nottingham",
-                locations: ["Nottingham"],
-                languages: ["English"],
-                img: "https://drsfirst.com/wp-content/uploads/2025/10/Lekh.webp",
-                link: "#",
-                cats: ["pac"],
-                badgeText: ""
             },
             {
                 name: "Zahtasia McRoy",
@@ -474,6 +471,168 @@
                 img: "https://drsfirst.com/wp-content/uploads/2024/07/Angelique-Ramirez-01.webp",
                 link: "#",
                 cats: "pac"
+            },
+            {
+                name: "Matthew Bruntel",
+                role: "D.O.",
+                location: "Gaithersburg",
+                locations: ["Gaithersburg"],
+                languages: ["English"],
+                img: "https://drsfirst.com/wp-content/uploads/2024/05/FMA-Headshots-2.jpg",
+                link: "#"
+            },
+            {
+                name: "Katherine Lee",
+                role: "FNP-BC",
+                location: "Gaithersburg & Rockville",
+                locations: ["Gaithersburg", "Rockville"],
+                languages: ["English"],
+                img: "https://drsfirst.com/wp-content/uploads/2024/10/Katherine-Lee.webp",
+                link: "#"
+            },
+            {
+                name: "Zainab Kebbie Turay",
+                role: "FNP",
+                location: "Annapolis",
+                locations: ["Annapolis"],
+                languages: ["English"],
+                img: "https://drsfirst.com/wp-content/uploads/2025/07/Zainab-Kebbie-Turay-1.png",
+                link: "#"
+            },
+            {
+                name: "TyLisa Duckett",
+                role: "FNP-BC",
+                location: "Bowie",
+                locations: ["Bowie"],
+                languages: ["English"],
+                img: "https://drsfirst.com/wp-content/uploads/2024/09/TyLisa-Duckett.jpg",
+                link: "#"
+            },
+            {
+                name: "Emily Velasquez",
+                role: "PA-C",
+                location: "Bowie",
+                locations: ["Bowie"],
+                languages: ["English", "Spanish"],
+                img: "https://drsfirst.com/wp-content/uploads/2023/10/Emily-Velasquez-1.jpg",
+                link: "#"
+            },
+            {
+                name: "Janiah Lambert",
+                role: "PA-C",
+                location: "Severna Park",
+                locations: ["Severna Park"],
+                languages: ["English"],
+                img: "https://drsfirst.com/wp-content/uploads/2025/05/Janiah-Lambert-hs.jpg",
+                link: "#"
+            },
+            {
+                name: "Alisha Singh",
+                role: "PA-C",
+                location: "Nottingham",
+                locations: ["Nottingham"],
+                languages: ["English"],
+                img: "https://drsfirst.com/wp-content/uploads/2023/07/Alisha-Singh-pic.jpg",
+                link: "#"
+            },
+            {
+                name: "Molly Harrigan",
+                role: "PA-C",
+                location: "Germantown",
+                locations: ["Germantown"],
+                languages: ["English"],
+                img: "https://drsfirst.com/wp-content/uploads/2023/04/Molly-Harrigan.jpg",
+                link: "#"
+            },
+            {
+                name: "Marili Lemus",
+                role: "PA-C",
+                location: "Columbia & Nottingham",
+                locations: ["Columbia", "Nottingham"],
+                languages: ["English", "Spanish"],
+                img: "https://drsfirst.com/wp-content/uploads/2024/05/Marili-Lemus-2-01.jpg",
+                link: "#"
+            },
+            {
+                name: "Victoria Thee",
+                role: "PA-C",
+                location: "Germantown",
+                locations: ["Germantown"],
+                languages: ["English"],
+                img: "https://drsfirst.com/wp-content/uploads/2024/02/Victoria-Thee.jpg",
+                link: "#"
+            },
+            {
+                name: "Karen Lizarraga",
+                role: "PA-C",
+                location: "Gaithersburg",
+                locations: ["Gaithersburg"],
+                languages: ["English", "Spanish"],
+                img: "https://drsfirst.com/wp-content/uploads/2023/08/Karen-Laizarraga-Espanol.jpg",
+                link: "#"
+            },
+            {
+                name: "Emma Feeney Harsel",
+                role: "PA-C",
+                location: "Nottingham",
+                locations: ["Nottingham"],
+                languages: ["English"],
+                img: "https://drsfirst.com/wp-content/uploads/2024/02/7470B97E-5741-4DCC-961B-10590920AB31.jpg",
+                link: "#"
+            },
+            {
+                name: "Leanne Antioquia",
+                role: "FNP-C",
+                location: "Bowie",
+                locations: ["Bowie"],
+                languages: ["English"],
+                img: "https://drsfirst.com/wp-content/uploads/2023/04/Leanne-Antioquia.jpg",
+                link: "#"
+            },
+            {
+                name: "Natalie Jarian Morales",
+                role: "FNP-C",
+                location: "Gaithersburg",
+                locations: ["Gaithersburg"],
+                languages: ["English", "Spanish"],
+                img: "	https://drsfirst.com/wp-content/uploads/2024/05/Natalie-Jarian.jpg",
+                link: "#"
+            },
+            {
+                name: "Eleanor Dzodzomenyo",
+                role: "MSN, FNP-BC",
+                location: "Germantown",
+                locations: ["Germantown"],
+                languages: ["English"],
+                img: "https://drsfirst.com/wp-content/uploads/2023/04/Eleanor-Dzodzomenyo.jpg",
+                link: "#"
+            },
+            {
+                name: "Jinkle Mody",
+                role: "AGPCNP",
+                location: "Frederick",
+                locations: ["Frederick"],
+                languages: ["English"],
+                img: "https://drsfirst.com/wp-content/uploads/2025/01/Jinkle-Mody-3.webp",
+                link: "#"
+            },
+            {
+                name: "Ashley Myatt",
+                role: "PA-C",
+                location: "Severna Park",
+                locations: ["Severna Park"],
+                languages: ["English"],
+                img: "https://drsfirst.com/wp-content/uploads/2025/02/Ashley-Myatt-WEB1.webp",
+                link: "#"
+            },
+            {
+                name: "Yvonne Tukei",
+                role: "PA",
+                location: "Glen Burnie",
+                locations: ["Glen Burnie"],
+                languages: ["English"],
+                img: "https://drsfirst.com/wp-content/uploads/2025/04/Yvonne-provider.webp",
+                link: "#"
             }
         ];
 
