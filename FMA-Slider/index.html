@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Locations Infinite Slider — 100% Width, Transparent</title>
+  <style>
+    /* Base */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box
+    }
+
+    /* Divi may override heading/link colors — lock them inside this slider */
+    #fma-slider .gs-title {
+      color: #fff !important;
+    }
+
+    #fma-slider .gs-meta,
+    #fma-slider .gs-meta strong {
+      color: #fff !important;
+    }
+
+    #fma-slider .gs-address {
+      color: rgba(255, 255, 255, .92) !important;
+    }
+
+    #fma-slider .gs-cta {
+      color: #3b82f6 !important;
+    }
+
+    /* keep CTA blue */
+
+    :root {
+      --gap: 14px;
+      --radius: 14px;
+      --shadow: 0 8px 28px rgba(0, 0, 0, .12);
+      --ink: #fff;
+      --ink-dim: rgba(255, 255, 255, .92);
+      --accent: #3b82f6;
+    }
+
+    /* No page background here so it inherits the site */
+    body {
+      margin: 0;
+      background: transparent;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    /* Slider shell: 100% width, no background */
+    .grid-slider {
+      width: 100%;
+      max-width: none;
+      margin: 0;
+      position: relative;
+      background: transparent;
+    }
+
+    /* Viewport: no rounded corners or shadows, transparent */
+    .gs-viewport {
+      overflow: hidden;
+      border-radius: 0;
+      box-shadow: none;
+      background: transparent;
+      width: 100%;
+    }
+
+    .gs-track {
+      display: flex;
+      transition: transform 400ms ease;
+      will-change: transform;
+      background: transparent;
+      /* no bg */
+    }
+
+    /* Each slide = exactly the viewport width */
+    .gs-slide {
+      flex: 0 0 100%;
+      min-width: 100%;
+      display: grid;
+      gap: var(--gap);
+      grid-template-columns: repeat(3, 1fr);
+      /* desktop: 3 across */
+      grid-auto-rows: auto;
+      padding: var(--gap);
+      background: transparent;
+      /* no bg */
+    }
+
+    /* Card with fixed aspect ratio (controls height); image covers fully */
+    .gs-card {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #000;
+      /* only shows while image loads (instant for cached) */
+      isolation: isolate;
+      aspect-ratio: 16/9;
+    }
+
+    .gs-media img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      transform: translateZ(0);
+      transition: transform .35s ease;
+    }
+
+    .gs-card:hover .gs-media img {
+      transform: scale(1.04);
+    }
+
+    /* Readability veil over photo (kept for contrast) */
+    .gs-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background: linear-gradient(to top, rgba(0, 0, 0, .55) 0%, rgba(0, 0, 0, .45) 55%, rgba(0, 0, 0, .25) 100%);
+    }
+
+    /* Overlay text */
+    .gs-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 18px;
+      color: var(--ink);
+    }
+
+    .gs-title {
+      margin: 0 0 8px;
+      font-weight: 800;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      font-size: 18px;
+      line-height: 1.2;
+    }
+
+    .gs-meta {
+      margin: 0 0 6px;
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    .gs-address {
+      margin: 0;
+      font-size: 15px;
+      color: var(--ink-dim);
+      line-height: 1.35;
+    }
+
+    .gs-cta {
+      margin-top: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--accent);
+      font-weight: 800;
+      z-index: 3;
+      position: relative;
+    }
+
+    .gs-cta::after {
+      content: "→";
+      transform: translateY(-1px);
+    }
+
+    /* Full-card link so image/overlay are clickable */
+    .gs-cover {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+    }
+
+    /* Arrows & dots */
+    .gs-arrow {
+      position: absolute;
+      top: 50%;
+      translate: 0 -50%;
+      z-index: 4;
+      border: none;
+      background: #fff;
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+    }
+
+    .gs-prev {
+      left: 8px
+    }
+
+    .gs-next {
+      right: 8px
+    }
+
+    .gs-dots {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 14px 0 0;
+    }
+
+    .gs-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: #c8cdd3;
+      border: none;
+      cursor: pointer;
+    }
+
+    .gs-dot[aria-current="true"] {
+      background: #111;
+    }
+
+    /* Tablet: 2-across (2×2 per slide) */
+    @media (max-width:900px) {
+      .gs-slide {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* Mobile: 1-across (1×2 per slide) */
+    @media (max-width:560px) {
+      .gs-slide {
+        grid-template-columns: 1fr;
+      }
+
+      .gs-title {
+        font-size: 16px;
+        letter-spacing: .16em;
+      }
+
+      .gs-meta,
+      .gs-address {
+        font-size: 14px;
+      }
+
+      .gs-cta {
+        font-size: 12px;
+        letter-spacing: .18em;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <section id="fma-slider" class="grid-slider" aria-label="Location grid slider">
+    <div class="gs-viewport">
+      <div class="gs-track" id="gsTrack"></div>
+    </div>
+    <button class="gs-arrow gs-prev" id="gsPrev" aria-label="Previous">&#10094;</button>
+    <button class="gs-arrow gs-next" id="gsNext" aria-label="Next">&#10095;</button>
+    <div class="gs-dots" id="gsDots" role="tablist" aria-label="Slide navigation"></div>
+  </section>
+
+  <script>
+    /* Your data */
+    const locations = [
+      {
+        name: "Annapolis, MD", cityStatePhone: "443-909-5718",
+        addressLines: ["2448 Holly Avenue Ste 102", "Annapolis, Maryland 21401"],
+        img: "https://drsfirst.com/wp-content/uploads/2025/02/First-Medical-Associates-Annapolis-MD-Office.jpg",
+        href: "/location/annapolis/"
+      },
+      {
+        name: "Bowie, MD", cityStatePhone: "301-262-6797",
+        addressLines: ["14300 Gallant Fox Ln #110", "Bowie, MD 20715"],
+        img: "https://drsfirst.com/wp-content/uploads/2023/03/Bowie-1.webp", href: "/location/bowie/"
+      },
+      {   //This will be Bowie 2
+        name: "Bowie, MD", cityStatePhone: "301-262-6797",
+        addressLines: ["14300 Gallant Fox Ln #110", "Bowie, MD 20715"],
+        img: "https://drsfirst.com/wp-content/uploads/2023/03/Bowie-1.webp", href: "/location/bowie/"
+      },
+      {
+        name: "Columbia, MD", cityStatePhone: "410-204-4921",
+        addressLines: ["8600 Snowden River Pkwy STE 207,", "Columbia, MD 21045"],
+        img: "https://drsfirst.com/wp-content/uploads/2023/03/Columbia-1.webp", href: "/location/columbia/"
+      },
+      {
+        name: "Frederick, MD", cityStatePhone: "301-284-3181",
+        addressLines: ["196 Thomas Johnson Dr STE 235,", "Frederick, MD 21702"],
+        img: "https://drsfirst.com/wp-content/uploads/2024/01/Frederick.jpg", href: "/location/frederick/"
+      },
+      {
+        name: "Gaithersburg, MD", cityStatePhone: "301-515-2902",
+        addressLines: ["806 W Diamond Ave #110,", "Gaithersburg, MD 20878"],
+        img: "https://drsfirst.com/wp-content/uploads/2023/03/Gaithersburg-1.webp", href: "/location/gaithersburg/"
+      },
+      {
+        name: "Germantown, MD", cityStatePhone: "301-284-3181",
+        addressLines: ["12800 Middlebrook Road Suite 400,", "Germantown, MD 20874"],
+        img: "https://drsfirst.com/wp-content/uploads/2023/03/Germantown-1.webp", href: "/location/germantown/"
+      },
+      {
+        name: "Glen Burnie, MD", cityStatePhone: "443-957-3570",
+        addressLines: ["1600 Crain Highway Ste 202", "Glen Burnie, Maryland 21061"],
+        img: "https://drsfirst.com/wp-content/uploads/2025/02/First-Medical-Associates-Glen-Burnie-MD-office.jpg", href: "/location/glen-burnie/"
+      },
+      {
+        name: "Nottingham, MD", cityStatePhone: "410-918-0777",
+        addressLines: ["8100 Sandpiper Cir STE 308,", "Baltimore, MD 21236"],
+        img: "https://drsfirst.com/wp-content/uploads/2024/03/IMG_3168.jpg", href: "/location/nottingham/"
+      },
+      {
+        name: "Rockville, MD", cityStatePhone: "301-200-1687",
+        addressLines: ["9601 Blackwell Road Suite 210,", "Rockville, MD 20850"],
+        img: "https://drsfirst.com/wp-content/uploads/2023/03/Rockville.webp", href: "/location/rockville/"
+      },
+      {
+        name: "Severna Park, MD", cityStatePhone: "443-909-5913",
+        addressLines: ["877 Baltimore Annapolis Boulevard, #112", "Severna Park, MD 21146"],
+        img: "https://drsfirst.com/wp-content/uploads/2024/10/Severna-Park.webp", href: "/location/severna-park/"
+      },
+      {
+        name: "Silver Spring, MD", cityStatePhone: "301-593-7792",
+        addressLines: ["700 Roeder Rd Suite 100 B,", "Silver Spring, MD 20910"],
+        img: "https://drsfirst.com/wp-content/uploads/2023/04/Silver-Spring.jpg", href: "/location/silver-spring/"
+      },
+      {
+        name: "Lutherville, MD", cityStatePhone: "667-275-4907",
+        addressLines: ["1205 York Road, Ste 38,", "Lutherville, MD 21093"],
+        img: "https://drsfirst.com/wp-content/uploads/2025/10/fma-lutherville.webp", href: "/location/lutherville/"
+      },
+      {
+        name: "Greenbelt, MD", cityStatePhone: "227-997-3903",
+        addressLines: ["7500 Greenway Center Dr, Ste 620", "Greenbelt, MD 21093"],
+        img: "https://drsfirst.com/wp-content/uploads/2025/10/fma-greenbelt.webp", href: "/location/greenbelt"
+      },
+    ];
+
+    /* Responsive per-slide: 3×2 desktop (6), 2×2 tablet (4), 1×2 mobile (2) */
+    const getPerSlide = () => window.innerWidth <= 560 ? 2 : (window.innerWidth <= 900 ? 4 : 6);
+
+    /* DOM */
+    const track = document.getElementById("gsTrack");
+    const dots = document.getElementById("gsDots");
+    const prevBtn = document.getElementById("gsPrev");
+    const nextBtn = document.getElementById("gsNext");
+
+    /* Utils */
+    function chunk(a, n) { const o = []; for (let i = 0; i < a.length; i += n) o.push(a.slice(i, i + n)); return o; }
+    function clear(el) { while (el.firstChild) el.removeChild(el.firstChild); }
+
+    /* Build one slide — title = city/state, meta = phone, address = two lines */
+    function buildSlide(items, { isClone = false } = {}) {
+      const slide = document.createElement("div");
+      slide.className = "gs-slide";
+      slide.dataset.clone = isClone;
+
+      items.forEach(loc => {
+        const card = document.createElement("article");
+        card.className = "gs-card";
+
+        const media = document.createElement("figure");
+        media.className = "gs-media";
+        const img = document.createElement("img");
+        img.src = loc.img;
+        img.alt = `${loc.name}`;             // alt now just the city/state
+        img.loading = "lazy";
+        media.appendChild(img);
+
+        const overlay = document.createElement("div");
+        overlay.className = "gs-overlay";
+
+        // Title = City/State (e.g., "Annapolis, MD")
+        const title = document.createElement("h3");
+        title.className = "gs-title";
+        title.textContent = loc.name;
+
+        // Meta = Phone only
+        const meta = document.createElement("p");
+        meta.className = "gs-meta";
+        meta.textContent = loc.cityStatePhone;
+
+        // Address
+        const addr = document.createElement("p");
+        addr.className = "gs-address";
+        addr.innerHTML = `${loc.addressLines[0]}<br>${loc.addressLines[1] || ""}`;
+
+        // CTA (unchanged)
+        const cta = document.createElement("a");
+        cta.className = "gs-cta";
+        cta.href = loc.href;
+        cta.textContent = "View Location";
+
+        overlay.append(title, meta, addr, cta);
+
+        // Full-card link (image/overlay click)
+        const cover = document.createElement("a");
+        cover.className = "gs-cover";
+        cover.href = loc.href;
+        cover.setAttribute("aria-label", `Open ${loc.name}`);
+
+        card.append(media, overlay, cover);
+        slide.appendChild(card);
+      });
+
+      return slide;
+    }
+
+    /* Build + mount (supports responsive rebuild) */
+    let index = 1, slidesCount = 0, realSlides = [];
+    function mount() {
+      clear(track); clear(dots);
+      const perSlide = getPerSlide();
+      realSlides = chunk(locations, perSlide);
+      slidesCount = realSlides.length;
+      index = 1;
+
+      track.append(buildSlide(realSlides[slidesCount - 1], { isClone: true }));
+      realSlides.forEach((s, i) => {
+        track.append(buildSlide(s));
+        const dot = document.createElement("button");
+        dot.className = "gs-dot";
+        dot.addEventListener("click", () => goTo(i + 1));
+        dots.append(dot);
+      });
+      track.append(buildSlide(realSlides[0], { isClone: true }));
+
+      setTransition(false);
+      applyTransform();
+      setTimeout(() => setTransition(true), 0);
+      updateDots();
+    }
+
+    function setTransition(on) { track.style.transition = on ? "transform 400ms ease" : "none"; }
+    function applyTransform() { track.style.transform = `translateX(-${index * 100}%)`; }
+    function realIndex(i) { return i === 0 ? slidesCount - 1 : (i === slidesCount + 1 ? 0 : i - 1); }
+    function updateDots() {
+      const cur = realIndex(index);
+      [...dots.children].forEach((d, i) => d.setAttribute("aria-current", i === cur ? "true" : "false"));
+    }
+
+    function goTo(i) { index = i; setTransition(true); applyTransform(); updateDots(); }
+    track.addEventListener("transitionend", () => {
+      if (index === 0) {
+        setTransition(false); index = slidesCount; applyTransform(); setTimeout(() => setTransition(true), 0); updateDots();
+      } else if (index === slidesCount + 1) {
+        setTransition(false); index = 1; applyTransform(); setTimeout(() => setTransition(true), 0); updateDots();
+      }
+    });
+
+    /* Controls + input */
+    prevBtn.addEventListener("click", () => goTo(index - 1));
+    nextBtn.addEventListener("click", () => goTo(index + 1));
+    let startX = 0, dx = 0, touch = false;
+    track.addEventListener("touchstart", e => { touch = true; startX = e.touches[0].clientX; }, { passive: true });
+    track.addEventListener("touchmove", e => { if (!touch) return; dx = e.touches[0].clientX - startX; }, { passive: true });
+    track.addEventListener("touchend", () => {
+      if (!touch) return;
+      if (dx > 50) goTo(index - 1);
+      else if (dx < -50) goTo(index + 1);
+      touch = false; dx = 0;
+    });
+
+    /* Rebuild on resize to keep 3×2 / 2×2 / 1×2 */
+    let resizeTimer;
+    window.addEventListener("resize", () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(mount, 150); });
+
+
+    mount();
+
+    const AUTOPLAY_MS = 6000;
+    let timer = setInterval(() => goTo(index + 1), AUTOPLAY_MS);
+    ['pointerdown', 'keydown', 'touchstart', 'resize'].forEach(evt => {
+      window.addEventListener(evt, () => { clearInterval(timer); timer = setInterval(() => goTo(index + 1), AUTOPLAY_MS); }, { passive: true });
+    });
+
+  </script>
+</body>
+
+</html>

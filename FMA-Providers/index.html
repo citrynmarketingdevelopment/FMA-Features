@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Provider Directory</title>
+    <style>
+        :root {
+            --gap: 16px;
+            --radius: 16px;
+            --ink: #0f172a;
+            --muted: #6b7280;
+            --brand: #2563eb;
+            --card: #ffffff;
+            --shadow: 0 10px 30px rgba(2, 6, 23, .08);
+            --ring: #e5e7eb;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        .prov-name {
+            color: #0f172a !important;
+        }
+
+        body {
+            margin: 0;
+            font-family: ui-sans-serif, system-ui, Segoe UI, Roboto, Arial;
+            color: var(--ink);
+            background: #f8fafc
+        }
+
+        #provider-directory .filter-bar {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: rgba(255, 255, 255, .95);
+            backdrop-filter: blur(6px);
+            border-bottom: 1px solid #eef2f7;
+        }
+
+        #provider-directory .filter-group {
+            width: 100%;
+            max-width: 90%;
+            margin: 0 auto;
+        }
+
+        #provider-directory .filter-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            color: #94a3b8;
+            padding: 6px 16px 0;
+        }
+
+        /* Base tabs styling */
+        #provider-directory .tabs {
+            width: 100%;
+            margin: 0 auto;
+            padding: 8px 16px 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            overflow-x: visible;
+        }
+
+        #provider-directory .tab {
+            border: 0;
+            background: transparent;
+            border-radius: 999px;
+            padding: 8px 14px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        #provider-directory .tab:hover {
+            background: #eef2ff
+        }
+
+        #provider-directory .tab[aria-pressed="true"] {
+            background: #eef2ff;
+            color: var(--brand);
+            outline: 2px solid #dbeafe
+        }
+
+        /* MOBILE: make each row horizontally scrollable */
+        @media (max-width: 768px) {
+            #provider-directory .tabs {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                gap: 6px;
+            }
+
+            #provider-directory .tab {
+                flex: 0 0 auto;
+                padding: 8px 12px;
+                font-size: 0.85rem;
+            }
+
+            #provider-directory .tabs::-webkit-scrollbar {
+                height: 4px;
+            }
+
+            #provider-directory .tabs::-webkit-scrollbar-track {
+                background: transparent;
+            }
+
+            #provider-directory .tabs::-webkit-scrollbar-thumb {
+                background: #cbd5f5;
+                border-radius: 999px;
+            }
+        }
+
+        #provider-directory .wrap {
+            max-width: 90%;
+            margin: 24px auto;
+            padding: 0 16px 80px
+        }
+
+        #provider-directory .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: var(--gap)
+        }
+
+        #provider-directory .card {
+            background: var(--card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 18px 16px 16px;
+            text-align: center;
+            transition: transform .2s ease, box-shadow .2s ease, opacity .22s ease
+        }
+
+        #provider-directory .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 44px rgba(2, 6, 23, .12)
+        }
+
+        #provider-directory .avatar-wrap {
+            width: 180px;
+            height: 180px;
+            margin: 4px auto 14px;
+            position: relative;
+            border-radius: 999px;
+            overflow: hidden;
+            box-shadow: 0 0 0 6px #fff, 0 0 0 1px var(--ring)
+        }
+
+        #provider-directory .avatar {
+            position: absolute;
+            inset: 0;
+            background: #ffffff center/cover no-repeat
+        }
+
+        #provider-directory .badge {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -2px;
+            height: 54px;
+            background: #1f3f57;
+            color: #fff;
+            font-weight: 700;
+            letter-spacing: .02em;
+            font-size: .9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            clip-path: ellipse(85% 100% at 50% 0);
+            padding: 0 10px
+        }
+
+        #provider-directory .prov-name {
+            font-weight: 800;
+            font-size: 1.05rem;
+            margin: 6px 0 4px;
+            display: block;
+            color: var(--ink)
+        }
+
+        #provider-directory .prov-role {
+            color: var(--muted);
+            font-weight: 700;
+            margin: 0 0 4px;
+            display: block
+        }
+
+        #provider-directory .prov-loc {
+            color: var(--muted);
+            margin: 0 0 10px;
+            display: block
+        }
+
+        #provider-directory .prov-more {
+            color: var(--brand);
+            text-decoration: none;
+            font-weight: 800
+        }
+
+        #provider-directory .prov-more:hover {
+            text-decoration: underline
+        }
+
+        #provider-directory .card.is-fading-out {
+            opacity: 0;
+            transform: scale(.98)
+        }
+
+        #provider-directory .card.is-fading-in {
+            opacity: 0;
+            transform: scale(.98);
+            animation: fadeIn .22s ease forwards
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: scale(1)
+            }
+        }
+
+        #provider-directory .card[hidden] {
+            display: none !important
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="provider-directory">
+        <!-- FILTER BAR -->
+        <div class="filter-bar">
+            <!-- Location filters -->
+            <div class="filter-group">
+                <div class="filter-label">Location</div>
+                <div class="tabs tabs-locations" role="tablist" aria-label="Location Filters">
+                    <!-- JS injects buttons here -->
+                </div>
+            </div>
+
+            <!-- Language filters -->
+            <div class="filter-group">
+                <div class="filter-label">Language</div>
+                <div class="tabs tabs-languages" role="tablist" aria-label="Language Filters">
+                    <!-- JS injects buttons here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- GRID -->
+        <main class="wrap">
+            <section class="grid" id="providers" aria-label="Providers"></section>
+        </main>
+    </div>
+
+    <script>
+        /* 1) Data (add languages + multi-locations as needed) */
+        const PROVIDERS = [
+            {
+                name: "Melinda Jorge",
+                role: "M.D.",
+                location: "Rockville",
+                locations: ["Rockville"],
+                languages: ["English", "Spanish"],
+                img: "https://drsfirst.com/wp-content/uploads/2025/08/temp-1.png",
+                link: "#",
+                cats: "md"
+            },
+            {
+                name: "Kahsu Tsehay",
+                role: "M.D.",
+                location: "Silver Spring",
+                locations: ["Silver Spring"],
+                languages: ["English"],
+                img: "https://drsfirst.com/wp-content/uploads/2024/06/Kahsu-Tsehay.jpg",
+                link: "#",
+                cats: "md"
+            },
+            {
+                name: "Maria Borodatcheva",
+                role: "M.D.",
+                location: "Silver Spring",
+                locations: ["Silver Spring"],
+                languages: ["English"],
+                img: "https://drsfirst.com/wp-content/uploads/2024/12/Dr.-Maria-Borodatcheva-2.webp",
+                link: "#",
+                cats: ["md"],
+                badgeText: ""
+            },
+            {
+                name: "Anita Kunwar",
+                role: "M.D.",
+                location: "Nottingham",
+                locations: ["Nottingham"],
+                languages: ["English"],
+                img: "https://drsfirst.com/wp-content/uploads/2024/06/Anita-Kunwar-1.webp",
+                link: "#",
+                cats: "md"
+            },
+            {
+                name: "Sharon McCormack",
+                role: "M.D.",
+                location: "Columbia",
+                locations: ["Columbia"],
+                languages: ["English"],
+                img: "https://drsfirst.com/wp-content/uploads/2024/01/Dr-McCormack.jpg",
+                link: "#",
+                cats: "md"
+            },
+            {
+                name: "Karthya Potti",
+                role: "M.D.",
+                location: "Columbia",
+                locations: ["Columbia"],
+                languages: ["English"],
+                img: "https://drsfirst.com/wp-content/uploads/2024/02/PottiK-Professional-Photo.jpg",
+                link: "#",
+                cats: "md"
+            },
+            {
+                /* MULTI-LOCATION + MULTI-LANGUAGE EXAMPLE */
+                name: "Meera Ramakrishman",
+                role: "M.D.",
+                location: "Gaithersburg & Rockville",
+                locations: ["Gaithersburg", "Rockville"],
+                languages: ["English", "Spanish"],
+                img: "https://drsfirst.com/wp-content/uploads/2024/01/Meera-Ramakrishnan.jpg",
+                link: "#",
+                cats: "md"
+            },
+            {
+                name: "Kimaya Vaidya",
+                role: "M.D.",
+                location: "Germantown",
+                locations: ["Germantown"],
+                languages: ["English"],
+                img: "https://drsfirst.com/wp-content/uploads/2023/04/Kimaya-Vaidya.jpg",
+                link: "#",
+                cats: "md"
+            },
+            {
+                name: "Maria Munoz",
+                role: "M.D.",
+                location: "Columbia",
+                locations: ["Columbia"],
+                languages: ["English", "Spanish"],  // example: bilingual
+                img: "https://drsfirst.com/wp-content/uploads/2023/10/Maria-Munoz.jpg",
+                link: "#",
+                cats: "md"
+            },
+            {
+                name: "Sheli Agarwal",
+                role: "M.D.",
+                location: "Frederick",
+                locations: ["Frederick"],
+                languages: ["English"],
+                img: "https://drsfirst.com/wp-content/uploads/2023/12/Sheli-Agarwal.jpg",
+                link: "#",
+                cats: "md"
+            },
+            {
+                name: "Mahpara Qureshi",
+                role: "M.D.",
+                location: "Gaithersburg",
+                locations: ["Gaithersburg"],
+                languages: ["English"],
+                img: "https://drsfirst.com/wp-content/uploads/2023/04/Dr.Qureshi.jpg",
+                link: "#",
+                cats: "md"
+            },
+            {
+                name: "Usha Seth",
+                role: "M.D.",
+                location: "Nottingham",
+                locations: ["Nottingham"],
+                languages: ["English"],
+                img: "https://drsfirst.com/wp-content/uploads/2025/06/Provider-1-1.webp",
+                link: "#",
+                cats: "md"
+            },
+            {
+                name: "Nitika Bandara",
+                role: "M.D.",
+                location: "Columbia",
+                locations: ["Columbia"],
+                languages: ["English"],
+                img: "https://drsfirst.com/wp-content/uploads/2025/09/IMG_6209.webp",
+                link: "#",
+                cats: "md"
+            },
+            {
+                name: "Rakesh Malik",
+                role: "M.D.",
+                location: "Germantown",
+                locations: ["Germantown"],
+                languages: ["English"],
+                img: "https://drsfirst.com/wp-content/uploads/2023/03/2530053.jpg",
+                link: "#",
+                cats: "md"
+            },
+            {
+                name: "Ronald Thomas",
+                role: "M.D.",
+                location: "Nottingham",
+                locations: ["Nottingham"],
+                languages: ["English"],
+                img: "https://drsfirst.com/wp-content/uploads/2023/04/Ronald-E.-Thomas-M.D_.jpg",
+                link: "#",
+                cats: "md"
+            },
+            {
+                name: "Jason Lowery",
+                role: "M.D.",
+                location: "Germantown",
+                locations: ["Germantown"],
+                languages: ["English"],
+                img: "https://drsfirst.com/wp-content/uploads/2023/12/Jason-Lowrey-MD-1.jpg",
+                link: "#",
+                cats: "md"
+            },
+            {
+                name: "Mamatha Chella",
+                role: "M.D.",
+                location: "Bowie",
+                locations: ["Bowie"],
+                languages: ["English"],
+                img: "https://drsfirst.com/wp-content/uploads/2025/05/Mamatha-Photo.jpg",
+                link: "#",
+                cats: "md"
+            },
+            {
+                name: "Quoc Anh Quinton Nguyen",
+                role: "M.D.",
+                location: "Germantown",
+                locations: ["Germantown"],
+                languages: ["English"],
+                img: "https://drsfirst.com/wp-content/uploads/2023/04/Quinton-Nguyen.jpg",
+                link: "#",
+                cats: "md"
+            },
+            {
+                name: "Lekh Poudel",
+                role: "PA-C",
+                location: "Nottingham",
+                locations: ["Nottingham"],
+                languages: ["English"],
+                img: "https://drsfirst.com/wp-content/uploads/2025/10/Lekh.webp",
+                link: "#",
+                cats: ["pac"],
+                badgeText: ""
+            },
+            {
+                name: "Zahtasia McRoy",
+                role: "PA-C",
+                location: "Rockville",
+                locations: ["Rockville"],
+                languages: ["English"],
+                img: "https://drsfirst.com/wp-content/uploads/2025/09/ZMcRoy_Headshot-1.webp",
+                link: "#",
+                cats: "pac"
+            },
+            {
+                name: "Angelique Ramirez",
+                role: "PA-C",
+                location: "Silver Spring",
+                locations: ["Silver Spring"],
+                languages: ["English", "Spanish"],
+                img: "https://drsfirst.com/wp-content/uploads/2024/07/Angelique-Ramirez-01.webp",
+                link: "#",
+                cats: "pac"
+            }
+        ];
+
+        const providersEl = document.getElementById('providers');
+
+        function slugify(str) {
+            return String(str || '')
+                .toLowerCase()
+                .trim()
+                .replace(/\s+/g, '-');
+        }
+
+        function cardTemplate(p) {
+            const locs = p.locations && p.locations.length ? p.locations : [p.location];
+            const langs = p.languages && p.languages.length ? p.languages : [];
+
+            const locData = locs.map(slugify).join(' ');
+            const langData = langs.map(slugify).join(' ');
+            const badge = p.badgeText ? `<div class="badge">${p.badgeText}</div>` : '';
+            const linkAttr = p.link ? `href="${p.link}"` : 'href="#"';
+            const bgStyle = p.img ? `background-image:url('${p.img}')` : '';
+
+            return `
+  <article class="card" data-loc="${locData}" data-lang="${langData}">
+    <div class="avatar-wrap">
+      <div class="avatar" style="${bgStyle}"></div>
+      ${badge}
+    </div>
+    <span class="prov-name">${p.name || ''}</span>
+    <span class="prov-role">${p.role || ''}</span>
+    <span class="prov-loc">${p.location || ''}</span>
+    <a class="prov-more" ${linkAttr}>Learn More</a>
+  </article>`;
+        }
+
+        function renderCards(data) {
+            providersEl.innerHTML = data.map(cardTemplate).join('');
+        }
+
+        // Build location tabs
+        function buildLocationTabs() {
+            const tabsWrap = document.querySelector('#provider-directory .tabs-locations');
+            const locations = [
+                ...new Set(
+                    PROVIDERS.flatMap(p =>
+                        (p.locations && p.locations.length ? p.locations : [p.location])
+                    ).filter(Boolean)
+                )
+            ].sort();
+
+            let html = `<button class="tab" aria-pressed="true" data-filter="all">All Locations</button>`;
+            html += locations.map(loc => {
+                const key = slugify(loc);
+                return `<button class="tab" aria-pressed="false" data-filter="${key}">${loc}</button>`;
+            }).join('');
+
+            tabsWrap.innerHTML = html;
+        }
+
+        // Build language tabs
+        function buildLanguageTabs() {
+            const tabsWrap = document.querySelector('#provider-directory .tabs-languages');
+            const languages = [
+                ...new Set(
+                    PROVIDERS.flatMap(p => p.languages || []).filter(Boolean)
+                )
+            ].sort();
+
+            let html = `<button class="tab" aria-pressed="true" data-filter="all">All Languages</button>`;
+            html += languages.map(lang => {
+                const key = slugify(lang);
+                return `<button class="tab" aria-pressed="false" data-filter="${key}">${lang}</button>`;
+            }).join('');
+
+            tabsWrap.innerHTML = html;
+        }
+
+        function setupFilters() {
+            const locTabs = document.querySelectorAll('#provider-directory .tabs-locations .tab');
+            const langTabs = document.querySelectorAll('#provider-directory .tabs-languages .tab');
+            let cards = [...document.querySelectorAll('#provider-directory .card')];
+
+            let activeLoc = 'all';
+            let activeLang = 'all';
+
+            function setActive(group, btn) {
+                group.forEach(t =>
+                    t.setAttribute('aria-pressed', t === btn ? 'true' : 'false')
+                );
+            }
+
+            function showCard(card) {
+                card.hidden = false;
+                card.classList.add('is-fading-in');
+                card.addEventListener(
+                    'animationend',
+                    () => card.classList.remove('is-fading-in'),
+                    { once: true }
+                );
+            }
+
+            function hideCard(card) {
+                card.classList.add('is-fading-out');
+                card.addEventListener(
+                    'transitionend',
+                    () => {
+                        card.classList.remove('is-fading-out');
+                        card.hidden = true;
+                    },
+                    { once: true }
+                );
+                setTimeout(() => {
+                    if (!card.hidden) {
+                        card.hidden = true;
+                        card.classList.remove('is-fading-out');
+                    }
+                }, 260);
+            }
+
+            function applyFilters() {
+                cards.forEach(card => {
+                    const locKeys = (card.dataset.loc || '').split(/\s+/).filter(Boolean);
+                    const langKeys = (card.dataset.lang || '').split(/\s+/).filter(Boolean);
+
+                    const locMatch = activeLoc === 'all' || locKeys.includes(activeLoc);
+                    const langMatch = activeLang === 'all' || langKeys.includes(activeLang);
+
+                    const match = locMatch && langMatch;
+
+                    if (match) {
+                        if (card.hidden) showCard(card);
+                    } else {
+                        if (!card.hidden) hideCard(card);
+                    }
+                });
+            }
+
+            locTabs.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    activeLoc = btn.dataset.filter;
+                    setActive(locTabs, btn);
+                    applyFilters();
+                });
+                btn.addEventListener('keydown', e => {
+                    if (e.key === ' ' || e.key === 'Enter') {
+                        e.preventDefault();
+                        btn.click();
+                    }
+                });
+            });
+
+            langTabs.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    activeLang = btn.dataset.filter;
+                    setActive(langTabs, btn);
+                    applyFilters();
+                });
+                btn.addEventListener('keydown', e => {
+                    if (e.key === ' ' || e.key === 'Enter') {
+                        e.preventDefault();
+                        btn.click();
+                    }
+                });
+            });
+
+            // initial state
+            applyFilters();
+        }
+
+        /* Boot */
+        renderCards(PROVIDERS);
+        buildLocationTabs();
+        buildLanguageTabs();
+        setupFilters();
+    </script>
+</body>
+
+</html>
