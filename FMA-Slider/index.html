@@ -291,11 +291,11 @@
         addressLines: ["14300 Gallant Fox Ln #110", "Bowie, MD 20715"],
         img: "https://drsfirst.com/wp-content/uploads/2023/03/Bowie-1.webp", href: "/location/bowie/"
       },
-      {   //This will be Bowie 2
-        name: "Bowie, MD", cityStatePhone: "301-262-6797",
-        addressLines: ["14300 Gallant Fox Ln #110", "Bowie, MD 20715"],
-        img: "https://drsfirst.com/wp-content/uploads/2023/03/Bowie-1.webp", href: "/location/bowie/"
-      },
+      // {   
+      //   name: "Bowie, MD", cityStatePhone: "301-262-6797",
+      //   addressLines: ["14300 Gallant Fox Ln #110", "Bowie, MD 20715"],
+      //   img: "https://drsfirst.com/wp-content/uploads/2023/03/Bowie-1.webp", href: "/location/bowie/"
+      // },
       {
         name: "Columbia, MD", cityStatePhone: "410-204-4921",
         addressLines: ["8600 Snowden River Pkwy STE 207,", "Columbia, MD 21045"],
@@ -352,6 +352,8 @@
         img: "https://drsfirst.com/wp-content/uploads/2025/10/fma-greenbelt.webp", href: "/location/greenbelt"
       },
     ];
+
+    locations.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
 
     /* Responsive per-slide: 3×2 desktop (6), 2×2 tablet (4), 1×2 mobile (2) */
     const getPerSlide = () => window.innerWidth <= 560 ? 2 : (window.innerWidth <= 900 ? 4 : 6);
