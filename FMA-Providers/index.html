@@ -134,12 +134,19 @@
             box-shadow: var(--shadow);
             padding: 18px 16px 16px;
             text-align: center;
-            transition: transform .2s ease, box-shadow .2s ease, opacity .22s ease
+            transition: transform .2s ease, box-shadow .2s ease, opacity .22s ease;
+            position: relative;
+            cursor: pointer;
         }
 
         #provider-directory .card:hover {
             transform: translateY(-2px);
             box-shadow: 0 16px 44px rgba(2, 6, 23, .12)
+        }
+
+        #provider-directory .card:focus-visible {
+            outline: 2px solid var(--brand);
+            outline-offset: 3px;
         }
 
         #provider-directory .avatar-wrap {
@@ -322,16 +329,6 @@
                 link: "sharon-mcCormack",
                 cats: "md"
             },
-            // {
-            //     name: "Karthya Potti",
-            //     role: "M.D.",
-            //     location: "Columbia",
-            //     locations: ["Columbia"],
-            //     languages: ["English"],
-            //     img: "https://drsfirst.com/wp-content/uploads/2024/02/PottiK-Professional-Photo.jpg",
-            //     link: "karthya-potti",
-            //     cats: "md"
-            // },
             {
                 name: "Meera Ramakrishnan",
                 role: "M.D.",
@@ -595,7 +592,7 @@
                 location: "Gaithersburg",
                 locations: ["Gaithersburg"],
                 languages: ["English", "Spanish", "Armenian"],
-                img: "	https://drsfirst.com/wp-content/uploads/2024/05/Natalie-Jarian.jpg",
+                img: "https://drsfirst.com/wp-content/uploads/2024/05/Natalie-Jarian.jpg",
                 link: "natalie-jarian-morales"
             },
             {
@@ -625,15 +622,15 @@
                 img: "https://drsfirst.com/wp-content/uploads/2025/02/Ashley-Myatt-WEB1.webp",
                 link: "ashley-myatt"
             },
-            // {
-            //     name: "Yvonne Tukei",
-            //     role: "PA",
-            //     location: "Glen Burnie",
-            //     locations: ["Glen Burnie"],
-            //     languages: ["English"],
-            //     img: "https://drsfirst.com/wp-content/uploads/2025/04/Yvonne-provider.webp",
-            //     link: "yvonne-tukei"
-            // }
+            {
+                name: "Yvonne Tukei",
+                role: "PA",
+                location: "Glen Burnie",
+                locations: ["Glen Burnie"],
+                languages: ["English"],
+                img: "https://drsfirst.com/wp-content/uploads/2025/04/Yvonne-provider.webp",
+                link: "yvonne-tukei"
+            }
         ];
 
         const providersEl = document.getElementById('providers');
@@ -652,11 +649,17 @@
             const locData = locs.map(slugify).join(' ');
             const langData = langs.map(slugify).join(' ');
             const badge = p.badgeText ? `<div class="badge">${p.badgeText}</div>` : '';
-            const linkAttr = p.link ? `href="${p.link}"` : 'href="#"';
+            const href = p.link || '#';
             const bgStyle = p.img ? `background-image:url('${p.img}')` : '';
 
             return `
-  <article class="card" data-loc="${locData}" data-lang="${langData}">
+  <article class="card"
+           data-loc="${locData}"
+           data-lang="${langData}"
+           data-href="${href}"
+           tabindex="0"
+           role="link"
+           aria-label="${p.name || ''}, ${p.role || ''} in ${p.location || ''}">
     <div class="avatar-wrap">
       <div class="avatar" style="${bgStyle}"></div>
       ${badge}
@@ -664,7 +667,7 @@
     <span class="prov-name">${p.name || ''}</span>
     <span class="prov-role">${p.role || ''}</span>
     <span class="prov-loc">${p.location || ''}</span>
-    <a class="prov-more" ${linkAttr}>Learn More</a>
+    <span class="prov-more">Learn More</span>
   </article>`;
         }
 
@@ -717,6 +720,23 @@
 
             let activeLoc = 'all';
             let activeLang = 'all';
+
+            // Make entire card clickable
+            cards.forEach(card => {
+                const href = card.dataset.href;
+                if (!href || href === '#') return;
+
+                card.addEventListener('click', () => {
+                    window.location.href = href;
+                });
+
+                card.addEventListener('keydown', e => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        window.location.href = href;
+                    }
+                });
+            });
 
             function setActive(group, btn) {
                 group.forEach(t =>
