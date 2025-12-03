@@ -1,0 +1,304 @@
+<!-- Trigger Button (optional – you can also use a Divi button with class "bowie-booking") -->
+<a href="javascript:void(0);" class="bowie-booking-btn">ZOCDOC BOOKING</a>
+
+<!-- Modal -->
+<div id="bowie-modal" class="bowie-modal">
+  <!-- Clickable dark overlay to close -->
+  <div class="modal-overlay" aria-label="Close booking modal"></div>
+
+  <!-- Modal dialog -->
+  <div class="modal-dialog">
+    <button class="modal-close" aria-label="Close modal">&times;</button>
+
+    <div class="modal-inner">
+      <div class="modal-kicker">First Medical Associates</div>
+      <h2 class="modal-title">Book Appointment Now</h2>
+      <p class="modal-subtitle">
+        Choose the Bowie location that’s most convenient for you and continue to our
+        secure online scheduler.
+      </p>
+
+      <div class="modal-options">
+        <!-- Bowie I -->
+        <a
+          class="location-btn"
+          href="https://first-medical-associates.inquicker.com/facility/first-medical-associates/bowie?appointmentTypeId=2791&service=1060&viewName=list"
+          target="_blank"
+          rel="noopener"
+        >
+          <div class="location-left">
+            <span class="location-label">Location</span>
+            <span class="location-name">Bowie I</span>
+          </div>
+          <div class="location-right">Continue &rsaquo;</div>
+        </a>
+
+        <!-- Bowie II (placeholder link for now) -->
+        <a
+          class="location-btn"
+          href="#"
+          target="_blank"
+          rel="noopener"
+        >
+          <div class="location-left">
+            <span class="location-label">Location</span>
+            <span class="location-name">Bowie II</span>
+          </div>
+          <div class="location-right">Continue &rsaquo;</div>
+        </a>
+      </div>
+
+      <div class="modal-footer">
+        Same-day appointments may be available. <strong>Insurance accepted.</strong>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Styles -->
+<style>
+  /* Fonts */
+  @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --bowie-bg: #003b96;
+    --bowie-bg-dark: #02235f;
+    --bowie-accent: #4cb3ff;
+    --bowie-text: #ffffff;
+    --radius-lg: 18px;
+    --shadow-lg: 0 20px 45px rgba(15, 23, 42, 0.40);
+  }
+
+  /* ZocDoc-style trigger button */
+  .bowie-booking-btn {
+    display: inline-block;
+    padding: 0.8rem 2.6rem;
+    border-radius: 10px;
+    background-color: #2f86c7;
+    color: #ffffff;
+    text-decoration: none;
+    font-family: "Libre Baskerville", serif;
+    font-size: 0.95rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s ease-in-out;
+    white-space: nowrap;
+  }
+
+  .bowie-booking-btn:hover {
+    background-color: #2876b2;
+  }
+
+  /* Modal base (hidden by default) */
+  .bowie-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+
+  .bowie-modal.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .modal-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(3, 6, 23, 0.70);
+  }
+
+  .modal-dialog {
+    position: relative;
+    max-width: 430px;
+    width: 92%;
+    margin: auto;
+    top: 50%;
+    transform: translateY(-50%);
+    background: radial-gradient(circle at top left, #1159d4, #06255f);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    color: var(--bowie-text);
+    padding: 2.2rem 2.4rem 2rem;
+    border: 1px solid rgba(148, 163, 184, 0.3);
+    overflow: hidden;
+    font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      sans-serif;
+  }
+
+  .modal-dialog::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.06) 1px, transparent 0);
+    background-size: 26px 26px;
+    opacity: 0.45;
+    pointer-events: none;
+  }
+
+  .modal-inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .modal-kicker {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(226, 232, 240, 0.9);
+    margin-bottom: 0.4rem;
+    font-weight: 500;
+  }
+
+  .modal-title {
+    font-family: "Libre Baskerville", "Times New Roman", serif;
+    font-size: 1.6rem;
+    line-height: 1.25;
+    margin: 0 0 0.75rem;
+  }
+
+  .modal-subtitle {
+    font-size: 0.95rem;
+    color: rgba(226, 232, 240, 0.9);
+    margin-bottom: 1.4rem;
+  }
+
+  .modal-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1.8rem;
+  }
+
+  .location-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.9rem 1.1rem;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.18);
+    border: 1px solid rgba(148, 163, 184, 0.8);
+    text-decoration: none;
+    color: var(--bowie-text);
+    font-size: 0.95rem;
+    font-weight: 500;
+    backdrop-filter: blur(10px);
+    transition: background 0.2s ease, transform 0.15s ease,
+                box-shadow 0.15s ease, border-color 0.2s ease;
+  }
+
+  .location-left {
+    display: flex;
+    flex-direction: column;
+    gap: 0.16rem;
+    text-align: left;
+  }
+
+  .location-label {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 0.76rem;
+    opacity: 0.9;
+  }
+
+  .location-name {
+    font-size: 1.02rem;
+    font-weight: 600;
+  }
+
+  .location-right {
+    font-size: 1rem;
+    opacity: 0.9;
+  }
+
+  .location-btn:hover {
+    background: rgba(15, 23, 42, 0.35);
+    transform: translateY(-1px);
+    box-shadow: 0 14px 30px rgba(15, 23, 42, 0.55);
+    border-color: var(--bowie-accent);
+  }
+
+  .modal-footer {
+    font-size: 0.8rem;
+    color: rgba(226, 232, 240, 0.75);
+  }
+
+  .modal-footer strong {
+    font-weight: 600;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 0.85rem;
+    right: 1rem;
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    border: 1px solid rgba(148, 163, 184, 0.6);
+    background: rgba(15, 23, 42, 0.6);
+    color: rgba(226, 232, 240, 0.9);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 1.1rem;
+    line-height: 1;
+    z-index: 2;
+    backdrop-filter: blur(8px);
+    cursor: pointer;
+  }
+
+  .modal-close:hover {
+    background: rgba(15, 23, 42, 0.85);
+  }
+
+  @media (max-width: 480px) {
+    .modal-dialog {
+      padding: 1.9rem 1.4rem 1.7rem;
+    }
+    .modal-title {
+      font-size: 1.4rem;
+    }
+  }
+</style>
+
+<!-- Script to open/close modal -->
+<script>
+  (function() {
+    var modal = document.getElementById('bowie-modal');
+    if (!modal) return;
+
+    // Any element that should open the modal: .bowie-booking-btn or .bowie-booking (Divi button class)
+    var openers = document.querySelectorAll('.bowie-booking-btn, .bowie-booking');
+
+    openers.forEach(function(opener) {
+      opener.addEventListener('click', function(e) {
+        e.preventDefault();
+        modal.classList.add('is-open');
+      });
+    });
+
+    // Close on overlay click or close button
+    var overlay = modal.querySelector('.modal-overlay');
+    var closeBtn = modal.querySelector('.modal-close');
+
+    function closeModal() {
+      modal.classList.remove('is-open');
+    }
+
+    overlay.addEventListener('click', closeModal);
+    closeBtn.addEventListener('click', closeModal);
+
+    // Optional: close on ESC key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeModal();
+      }
+    });
+  })();
+</script>
