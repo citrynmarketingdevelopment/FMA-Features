@@ -488,7 +488,7 @@
     mount();
 
     const AUTOPLAY_MS = 6000;
-    let timer = setInterval(() => goTo(index + 1), AUTOPLAY_MS);
+    let timer = setInterval(() => goTo(index + 1), AUTOPLAY_MS);''
     ['pointerdown', 'keydown', 'touchstart', 'resize'].forEach(evt => {
       window.addEventListener(evt, () => { clearInterval(timer); timer = setInterval(() => goTo(index + 1), AUTOPLAY_MS); }, { passive: true });
     });
