@@ -134,12 +134,19 @@
             box-shadow: var(--shadow);
             padding: 18px 16px 16px;
             text-align: center;
-            transition: transform .2s ease, box-shadow .2s ease, opacity .22s ease
+            transition: transform .2s ease, box-shadow .2s ease, opacity .22s ease;
+            position: relative;
+            cursor: pointer;
         }
 
         #provider-directory .card:hover {
             transform: translateY(-2px);
             box-shadow: 0 16px 44px rgba(2, 6, 23, .12)
+        }
+
+        #provider-directory .card:focus-visible {
+            outline: 2px solid var(--brand);
+            outline-offset: 3px;
         }
 
         #provider-directory .avatar-wrap {
@@ -267,7 +274,7 @@
                 role: "PA-C",
                 location: "Nottingham",
                 locations: ["Nottingham"],
-                languages: ["English"],
+                languages: ["English", "Hindi"],
                 img: "https://drsfirst.com/wp-content/uploads/2025/10/Lekh.webp",
                 link: "lekh-poudel",
                 cats: ["pac"]
@@ -277,8 +284,8 @@
                 role: "M.D.",
                 location: "Germantown",
                 locations: ["Germantown"],
-                languages: ["English", "Spanish"],
-                img: "https://drsfirst.com/wp-content/uploads/2025/08/temp-1.png",
+                languages: ["English", "Spanish", "Portuguese"],
+                img: "https://drsfirst.com/wp-content/uploads/2025/11/melinda-jorge-2.webp",
                 link: "melinda-jorge",
                 cats: "md"
             },
@@ -323,22 +330,12 @@
                 cats: "md"
             },
             {
-                name: "Karthya Potti",
-                role: "M.D.",
-                location: "Columbia",
-                locations: ["Columbia"],
-                languages: ["English"],
-                img: "https://drsfirst.com/wp-content/uploads/2024/02/PottiK-Professional-Photo.jpg",
-                link: "karthya-potti",
-                cats: "md"
-            },
-            {
                 name: "Meera Ramakrishnan",
                 role: "M.D.",
                 location: "Gaithersburg, Rockville",
                 locations: ["Gaithersburg", "Rockville"],
                 languages: ["English", "Spanish"],
-                img: "https://drsfirst.com/wp-content/uploads/2024/01/Meera-Ramakrishnan.jpg",
+                img: "https://drsfirst.com/wp-content/uploads/2025/11/Meera-Ramakrishnan.webp",
                 link: "meera-ramakrishnan",
                 cats: "md"
             },
@@ -358,8 +355,8 @@
                 location: "Columbia",
                 locations: ["Columbia"],
                 languages: ["English", "Spanish"],
-                img: "https://drsfirst.com/wp-content/uploads/2023/10/Maria-Munoz.jpg",
-                link: "maria-munoz",
+                img: "https://drsfirst.com/wp-content/uploads/2025/11/Maria-Munoz.webp",
+                link: "maria-munoz-md",
                 cats: "md"
             },
             {
@@ -367,7 +364,7 @@
                 role: "M.D.",
                 location: "Frederick",
                 locations: ["Frederick"],
-                languages: ["English"],
+                languages: ["English", "Hindi"],
                 img: "https://drsfirst.com/wp-content/uploads/2023/12/Sheli-Agarwal.jpg",
                 link: "sheli-agarwal",
                 cats: "md"
@@ -387,7 +384,7 @@
                 role: "M.D.",
                 location: "Nottingham",
                 locations: ["Nottingham"],
-                languages: ["English"],
+                languages: ["English", "Hindi"],
                 img: "https://drsfirst.com/wp-content/uploads/2025/06/Provider-1-1.webp",
                 link: "usha-seth",
                 cats: "md"
@@ -407,7 +404,7 @@
                 role: "M.D.",
                 location: "Germantown",
                 locations: ["Germantown"],
-                languages: ["English"],
+                languages: ["English", "Hindi"],
                 img: "https://drsfirst.com/wp-content/uploads/2023/03/2530053.jpg",
                 link: "rakesh-malik",
                 cats: "md"
@@ -447,7 +444,7 @@
                 role: "M.D.",
                 location: "Germantown",
                 locations: ["Germantown"],
-                languages: ["English"],
+                languages: ["English", "Vietnamese"],
                 img: "https://drsfirst.com/wp-content/uploads/2023/04/Quinton-Nguyen.jpg",
                 link: "quoc-anh-nguyen",
                 cats: "md"
@@ -468,7 +465,7 @@
                 location: "Silver Spring",
                 locations: ["Silver Spring"],
                 languages: ["English", "Spanish"],
-                img: "https://drsfirst.com/wp-content/uploads/2024/07/Angelique-Ramirez-01.webp",
+                img: "https://drsfirst.com/wp-content/uploads/2025/11/Angelique-ramirez.webp",
                 link: "angelique-ramirez",
                 cats: "pac"
             },
@@ -486,7 +483,7 @@
                 role: "FNP-BC",
                 location: "Gaithersburg & Rockville",
                 locations: ["Gaithersburg", "Rockville"],
-                languages: ["English"],
+                languages: ["English", "Mandarin", "Cantonese"],
                 img: "https://drsfirst.com/wp-content/uploads/2024/10/Katherine-Lee.webp",
                 link: "katherine-lee"
             },
@@ -514,8 +511,8 @@
                 location: "Bowie",
                 locations: ["Bowie"],
                 languages: ["English", "Spanish"],
-                img: "https://drsfirst.com/wp-content/uploads/2023/10/Emily-Velasquez-1.jpg",
-                link: "emily-velasquez"
+                img: "https://drsfirst.com/wp-content/uploads/2025/11/Emily-Velasquez.webp",
+                link: "emily-velasquez-pa-c"
             },
             {
                 name: "Janiah Lambert",
@@ -531,7 +528,7 @@
                 role: "PA-C",
                 location: "Nottingham",
                 locations: ["Nottingham"],
-                languages: ["English"],
+                languages: ["English", "Hindi"],
                 img: "https://drsfirst.com/wp-content/uploads/2023/07/Alisha-Singh-pic.jpg",
                 link: "alisha-singh"
             },
@@ -550,7 +547,7 @@
                 location: "Columbia & Nottingham",
                 locations: ["Columbia", "Nottingham"],
                 languages: ["English", "Spanish"],
-                img: "https://drsfirst.com/wp-content/uploads/2024/05/Marili-Lemus-2-01.jpg",
+                img: "https://drsfirst.com/wp-content/uploads/2025/11/Marili-Lemus_Headshot.webp",
                 link: "marili-lemus"
             },
             {
@@ -568,7 +565,7 @@
                 location: "Gaithersburg",
                 locations: ["Gaithersburg"],
                 languages: ["English", "Spanish"],
-                img: "https://drsfirst.com/wp-content/uploads/2023/08/Karen-Laizarraga-Espanol.jpg",
+                img: "https://drsfirst.com/wp-content/uploads/2025/11/Karen-Lizarraga.webp",
                 link: "karen-lizarraga"
             },
             {
@@ -594,8 +591,8 @@
                 role: "FNP-C",
                 location: "Gaithersburg",
                 locations: ["Gaithersburg"],
-                languages: ["English", "Spanish"],
-                img: "	https://drsfirst.com/wp-content/uploads/2024/05/Natalie-Jarian.jpg",
+                languages: ["English", "Spanish", "Armenian"],
+                img: "https://drsfirst.com/wp-content/uploads/2025/11/Natalie-Morales.webp",
                 link: "natalie-jarian-morales"
             },
             {
@@ -633,6 +630,42 @@
                 languages: ["English"],
                 img: "https://drsfirst.com/wp-content/uploads/2025/04/Yvonne-provider.webp",
                 link: "yvonne-tukei"
+            },
+            {
+                name: "Lizy Thomas",
+                role: "MD",
+                location: "Bowie",
+                locations: ["Bowie"],
+                languages: ["English"],
+                img: "https://drsfirst.com/wp-content/uploads/2025/11/Dr-Lizy-Thomas.webp",
+                link: "lizy-thomas"
+            }, 
+            {
+                name: "Aniruddha Bhattacharyya",
+                role: "MD",
+                location: "Bowie",
+                locations: ["Bowie"],
+                languages: ["English", "Bangla/Bengali"],
+                img: "https://drsfirst.com/wp-content/uploads/2025/11/Dr-Bhattacharyya-1.webp",
+                link: "aniruddha-bhattacharyya"
+            }, 
+            {
+                name: "James Wang",
+                role: "MD",
+                location: "Bowie",
+                locations: ["Bowie"],
+                languages: ["English"],
+                img: "https://drsfirst.com/wp-content/uploads/2025/11/Dr-Wang.webp",
+                link: "james-wang"
+            }, 
+            {
+                name: "Ilan Kokotek",
+                role: "D.O.",
+                location: "Lutherville",
+                locations: ["Lutherville"],
+                languages: ["English"],
+                img: "https://drsfirst.com/wp-content/uploads/2025/11/Ilan-Kokotek.webp",
+                link: "ilan-kokotek"
             }
         ];
 
@@ -652,11 +685,17 @@
             const locData = locs.map(slugify).join(' ');
             const langData = langs.map(slugify).join(' ');
             const badge = p.badgeText ? `<div class="badge">${p.badgeText}</div>` : '';
-            const linkAttr = p.link ? `href="${p.link}"` : 'href="#"';
+            const href = p.link || '#';
             const bgStyle = p.img ? `background-image:url('${p.img}')` : '';
 
             return `
-  <article class="card" data-loc="${locData}" data-lang="${langData}">
+  <article class="card"
+           data-loc="${locData}"
+           data-lang="${langData}"
+           data-href="${href}"
+           tabindex="0"
+           role="link"
+           aria-label="${p.name || ''}, ${p.role || ''} in ${p.location || ''}">
     <div class="avatar-wrap">
       <div class="avatar" style="${bgStyle}"></div>
       ${badge}
@@ -664,7 +703,7 @@
     <span class="prov-name">${p.name || ''}</span>
     <span class="prov-role">${p.role || ''}</span>
     <span class="prov-loc">${p.location || ''}</span>
-    <a class="prov-more" ${linkAttr}>Learn More</a>
+    <span class="prov-more">Learn More</span>
   </article>`;
         }
 
@@ -717,6 +756,23 @@
 
             let activeLoc = 'all';
             let activeLang = 'all';
+
+            // Make entire card clickable
+            cards.forEach(card => {
+                const href = card.dataset.href;
+                if (!href || href === '#') return;
+
+                card.addEventListener('click', () => {
+                    window.location.href = href;
+                });
+
+                card.addEventListener('keydown', e => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        window.location.href = href;
+                    }
+                });
+            });
 
             function setActive(group, btn) {
                 group.forEach(t =>
